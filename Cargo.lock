@@ -17,6 +17,17 @@ name = "ch2_list2-11"
 version = "0.1.0"
 
 [[package]]
+name = "ch2_list2-12"
+version = "0.1.0"
+dependencies = [
+ "num",
+]
+
+[[package]]
+name = "ch2_list2-17"
+version = "0.1.0"
+
+[[package]]
 name = "ch2_list2-6"
 version = "0.1.0"
 dependencies = [
