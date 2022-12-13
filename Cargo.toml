@@ -1,11 +1,5 @@
 [workspace]
 
 members = [
-    "ch2_list2-6",
-    "ch2_list2-7",
-    "ch2_list2-8",
-    "ch2_list2-10",
-    "ch2_list2-11",
-    "ch2_list2-12",
-    "ch2_list2-17",
+    "ch2/*",
 ]
