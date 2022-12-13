@@ -1,3 +1,14 @@
 fn main() {
-    println!("Hello, world!");
+    let needle = 42;
+    let haystack = [1, 1, 2, 5, 42, 123, 429, 1430, 4862];
+    for item in &haystack {
+        let result = match item {
+            42 | 132 => "hit!",
+            _ => "miss",
+        };
+
+        if result == "hit!" {
+            println!("{}: {}", item, result);
+        }
+    }
 }
