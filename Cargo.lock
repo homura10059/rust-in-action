@@ -32,6 +32,22 @@ name = "ch2_list2-18"
 version = "0.1.0"
 
 [[package]]
+name = "ch2_list2-19"
+version = "0.1.0"
+
+[[package]]
+name = "ch2_list2-20"
+version = "0.1.0"
+
+[[package]]
+name = "ch2_list2-21"
+version = "0.1.0"
+
+[[package]]
+name = "ch2_list2-22"
+version = "0.1.0"
+
+[[package]]
 name = "ch2_list2-6"
 version = "0.1.0"
 dependencies = [

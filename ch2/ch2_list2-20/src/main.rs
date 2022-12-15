@@ -5,9 +5,11 @@ Every face, every shop bedroom window, public-house, and
 dark square is a picture feverishly turned--in search of what
 it is th same books;
 What do we seek through millions of pages?";
-    for line in quote.lines() {
+
+    for (i, line) in quote.lines().enumerate() {
         if line.contains(search_term) {
-            println!("{}", search_term)
+            let line_num = i + 1;
+            println!("{}, {}", search_term, line_num)
         }
     }
 }
