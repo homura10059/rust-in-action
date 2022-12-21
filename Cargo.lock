@@ -206,6 +206,14 @@ name = "ch4_lirst4-8"
 version = "0.1.0"
 
 [[package]]
+name = "ch5_list5-01"
+version = "0.1.0"
+
+[[package]]
+name = "ch5_list5-02"
+version = "0.1.0"
+
+[[package]]
 name = "clap"
 version = "2.34.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
