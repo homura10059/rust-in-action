@@ -250,6 +250,22 @@ name = "ch6_list6-01"
 version = "0.1.0"
 
 [[package]]
+name = "ch6_list6-02"
+version = "0.1.0"
+
+[[package]]
+name = "ch6_list6-03"
+version = "0.1.0"
+
+[[package]]
+name = "ch6_list6-04"
+version = "0.1.0"
+
+[[package]]
+name = "ch6_list6-05"
+version = "0.1.0"
+
+[[package]]
 name = "clap"
 version = "2.34.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
