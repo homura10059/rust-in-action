@@ -375,6 +375,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "ch6_list6-12"
+version = "0.1.0"
+
+[[package]]
 name = "clap"
 version = "2.34.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
