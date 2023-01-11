@@ -14,6 +14,7 @@ version = "0.1.0"
 dependencies = [
  "byteorder",
  "crc",
+ "serde_derive",
 ]
 
 [[package]]

@@ -1,5 +1,6 @@
 use byteorder::{LittleEndian, ReadBytesExt, WriteBytesExt};
 use crc::crc32;
+use serde_derive::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs::{File, OpenOptions};
 use std::io;
@@ -15,6 +16,7 @@ pub struct KeyValuePair {
     pub value: ByteString,
 }
 
+#[derive(Debug)]
 pub struct ActionKV {
     f: File,
     pub index: HashMap<ByteString, u64>,
@@ -32,7 +34,7 @@ impl ActionKV {
         Ok(ActionKV { f, index })
     }
 
-    fn precess_record<R: Read>(f: &mut R) -> io::Result<KeyValuePair> {
+    fn process_record<R: Read>(f: &mut R) -> io::Result<KeyValuePair> {
         let saved_checksum = f.read_u32::<LittleEndian>()?;
         let key_len = f.read_u32::<LittleEndian>()?;
         let val_len = f.read_u32::<LittleEndian>()?;
@@ -60,11 +62,15 @@ impl ActionKV {
         Ok(KeyValuePair { key, value })
     }
 
+    pub fn seek_to_end(&mut self) -> io::Result<u64> {
+        self.f.seek(SeekFrom::End(0))
+    }
+
     pub fn load(&mut self) -> io::Result<()> {
         let mut f = BufReader::new(&mut self.f);
         loop {
-            let position = f.seek(SeekFrom::Current(0))?;
-            let maybe_kv = ActionKV::precess_record(&mut f);
+            let current_position = f.seek(SeekFrom::Current(0))?;
+            let maybe_kv = ActionKV::process_record(&mut f);
 
             let kv = match maybe_kv {
                 Ok(kv) => kv,
@@ -76,9 +82,46 @@ impl ActionKV {
                 },
             };
 
-            self.index.insert(kv.key, position);
+            self.index.insert(kv.key, current_position);
         }
         Ok(())
+    }
+
+    pub fn get(&mut self, key: &ByteStr) -> io::Result<Option<ByteString>> {
+        let position = self.index.get(key).map(|x| *x)?;
+        let kv = self.get_at(position)?;
+        Ok(Some(kv.value))
+    }
+
+    pub fn get_at(&mut self, position: u64) -> io::Result<KeyValuePair> {
+        let mut f = BufReader::new(&mut self.f);
+        f.seek(SeekFrom::Start(position))?;
+        let kv = ActionKV::process_record(&mut f)?;
+        Ok(kv)
+    }
+
+    pub fn find(&mut self, target: &ByteStr) -> io::Result<Option<(u64, ByteString)>> {
+        let mut f = BufReader::new(&mut self.f);
+        let mut found: Option<(u64, ByteString)> = None;
+        loop {
+            let position = f.seek(SeekFrom::Current(0))?;
+
+            let maybe_kv = ActionKV::process_record(&mut f);
+            let kv = match maybe_kv {
+                Ok(kv) => kv,
+                Err(err) => match err.kind() {
+                    io::ErrorKind::UnexpectedEof => {
+                        break;
+                    }
+                    _ => return Err(err),
+                },
+            };
+
+            if kv.key == target {
+                found = Some((position, kv.value));
+            }
+        }
+        Ok(found)
     }
 
     pub fn insert(&mut self, key: &ByteStr, value: &ByteStr) -> io::Result<()> {
@@ -113,5 +156,15 @@ impl ActionKV {
         f.write_all(&mut tmp);
 
         Ok(current_position)
+    }
+
+    #[inline]
+    pub fn update(&mut self, key: &ByteStr, value: &ByteStr) -> io::Result<()> {
+        self.insert(key, value)
+    }
+
+    #[inline]
+    pub fn delete(&mut self, key: &ByteStr) -> io::Result<()> {
+        self.insert(key, b"")
     }
 }
