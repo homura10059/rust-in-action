@@ -10,10 +10,12 @@ checksum = "330223a1aecc308757b9926e9391c9b47f8ef2dbd8aea9df88312aea18c5e8d6"
 
 [[package]]
 name = "actionkv"
-version = "0.1.0"
+version = "2.0.0"
 dependencies = [
+ "bincode",
  "byteorder",
  "crc",
+ "serde",
  "serde_derive",
 ]
 
@@ -442,6 +444,21 @@ dependencies = [
 
 [[package]]
 name = "ch7_list7-15"
+version = "0.1.0"
+
+[[package]]
+name = "ch7_list7-18"
+version = "0.1.0"
+
+[[package]]
+name = "ch7_list7-19"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+]
+
+[[package]]
+name = "ch7_list7-20"
 version = "0.1.0"
 
 [[package]]
