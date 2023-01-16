@@ -536,6 +536,9 @@ dependencies = [
 [[package]]
 name = "ch8_mac"
 version = "0.1.0"
+dependencies = [
+ "rand 0.8.5",
+]
 
 [[package]]
 name = "ch8_resolve"
